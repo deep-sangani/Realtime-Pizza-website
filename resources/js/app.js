@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Noty from 'noty'
 import {initAdmin} from './admin'
-
+import moment from 'moment'
 
 
 
@@ -53,6 +53,35 @@ if(alertMsg){
 }
 
 initAdmin()
+
+// rander status
+let statuses = document.querySelectorAll('.status-line')
+const hiddeninput = document.querySelector('#hiddeninput')
+let order = hiddeninput ? hiddeninput.value : null
+order = JSON.parse(order)
+let time = document.createElement('small')
+
+function updateStatus(order){
+    let stepcompleted = true
+    statuses.forEach((status)=>{
+        let dataprop = status.dataset.status
+        if(stepcompleted){
+            status.classList.add('step-completed')
+        }
+        if(dataprop === order.status){
+            stepcompleted = false
+            time.innerText = moment(order.updatedAt).format('hh:mm A')
+            status.appendChild(time)
+            if(status.nextElementSibling){
+                status.nextElementSibling.classList.add('current')
+            }
+         
+        }
+    })
+
+}
+
+updateStatus(order)
 
 
 

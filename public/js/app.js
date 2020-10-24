@@ -26510,6 +26510,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! noty */ "./node_modules/noty/lib/noty.js");
 /* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(noty__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./admin */ "./resources/js/admin.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -26551,7 +26554,36 @@ if (alertMsg) {
   }, 2000);
 }
 
-Object(_admin__WEBPACK_IMPORTED_MODULE_2__["initAdmin"])();
+Object(_admin__WEBPACK_IMPORTED_MODULE_2__["initAdmin"])(); // rander status
+
+var statuses = document.querySelectorAll('.status-line');
+var hiddeninput = document.querySelector('#hiddeninput');
+var order = hiddeninput ? hiddeninput.value : null;
+order = JSON.parse(order);
+var time = document.createElement('small');
+
+function updateStatus(order) {
+  var stepcompleted = true;
+  statuses.forEach(function (status) {
+    var dataprop = status.dataset.status;
+
+    if (stepcompleted) {
+      status.classList.add('step-completed');
+    }
+
+    if (dataprop === order.status) {
+      stepcompleted = false;
+      time.innerText = moment__WEBPACK_IMPORTED_MODULE_3___default()(order.updatedAt).format('hh:mm A');
+      status.appendChild(time);
+
+      if (status.nextElementSibling) {
+        status.nextElementSibling.classList.add('current');
+      }
+    }
+  });
+}
+
+updateStatus(order);
 
 /***/ }),
 
@@ -26573,8 +26605,8 @@ Object(_admin__WEBPACK_IMPORTED_MODULE_2__["initAdmin"])();
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /media/deep/7DAD6BFF33575589/All_projects/realtime_pizza-master/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /media/deep/7DAD6BFF33575589/All_projects/realtime_pizza-master/resources/scss/app.scss */"./resources/scss/app.scss");
+__webpack_require__(/*! /media/deep/7DAD6BFF33575589/All_projects/realtime_pizza/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /media/deep/7DAD6BFF33575589/All_projects/realtime_pizza/resources/scss/app.scss */"./resources/scss/app.scss");
 
 
 /***/ })
