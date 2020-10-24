@@ -1,0 +1,79 @@
+@import './variables';
+@import '~noty/src/noty.scss';
+@import '~noty/src/themes/mint.scss';
+
+
+
+body{
+    font-family: 'Lato', sans-serif;
+    -webkit-font-smoothing: antialised;
+    color: $dark;
+    height: 4000px;
+}
+
+nav li:last-child a{
+    background: $primary;
+    &:hover{
+        background: $primary-hover
+    }
+    
+}
+
+nav li a{
+    transition:$smooth;
+    &:hover{
+        color: $primary;
+    }
+}
+
+section.hero{
+ background: $secondary;
+}
+
+.size{
+    background: $secondary;
+}
+.add-to-cart{
+    border: 2px solid $primary;
+    color: $primary;
+    &:hover{
+        background: $primary;
+        color: $pure;
+        border-color: $pure;
+        transition: $smooth;
+
+    }
+}
+
+.btn-primary{
+    background: $primary;
+    &:hover{
+        background: $primary-hover;
+        transition: $smooth;
+    }
+}
+.amount{
+    color: $primary;
+}
+
+.login a{
+    color: $primary;
+    &:hover{
+        color: $primary-hover;
+    }
+}
+
+.noty_theme__mint.noty_type__success  {
+    border-radius: 50px ;
+    padding-left:8px ;
+
+}
+
+.noty_theme__mint.noty_type__error{
+    border-radius: 50px ;
+    padding-left:8px ;
+}
+
+a.link{
+    color: $primary;
+}
