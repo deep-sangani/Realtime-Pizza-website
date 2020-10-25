@@ -2,7 +2,9 @@
 @import '~noty/src/noty.scss';
 @import '~noty/src/themes/mint.scss';
 
-
+* {
+    -webkit-tap-highlight-color: transparent;
+}
 
 body{
     font-family: 'Lato', sans-serif;
@@ -175,4 +177,20 @@ background: gray;
     float: right;
     font-size: 14px;
     margin-top:6px ;
+}
+@media(max-width:1060px){
+.container{
+    max-width: 90%;
+}
+table{
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+}
+@media(max-width:768px){
+    .status-box ul li span::before{
+        font-size: 34px;
+    }
 }

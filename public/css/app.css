@@ -305,6 +305,10 @@
   color: #fff;
 }
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   font-family: "Lato", sans-serif;
   -webkit-font-smoothing: antialised;
@@ -487,5 +491,23 @@ section.status {
   float: right;
   font-size: 14px;
   margin-top: 6px;
+}
+
+@media (max-width: 1060px) {
+  .container {
+    max-width: 90%;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .status-box ul li span::before {
+    font-size: 34px;
+  }
 }
 
