@@ -27,8 +27,8 @@ app.set('view engine','ejs')
 
 
 // connect to mongodb
-const url = 'mongodb://localhost/pizza'
-mongoose.connect(url,
+
+mongoose.connect(process.env.MONGO_CONNECTION_URL,
     {useNewUrlParser:true,
     useCreateIndex:true,
     useFindAndModify:true,
@@ -91,7 +91,9 @@ app.use(express.static('public'))
 
 // call function
 require('./routes/web')(app)
-
+app.use((req,res)=>{
+    res.status(404).render('404')
+})
 
 const server = app.listen(PORT,()=>{
     console.log(`server is running on port no ${PORT}`)
