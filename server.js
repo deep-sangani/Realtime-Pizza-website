@@ -9,8 +9,9 @@ const ejs = require('ejs')
 const expressLayout = require('express-ejs-layouts')
 const MongodbStore = require('connect-mongo')(session)
 const passport = require('passport')
+const Emitter = require('events')
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3300
 
 
 //use json file for responce
@@ -44,8 +45,9 @@ mongoose.connect(url,
     console.log("database err")
     })
 
-
-
+// eventEmitter
+const eventEmitter = new Emitter()
+app.set('eventEmitter',eventEmitter)
 // session start in mongodb
 let mongoStore = new MongodbStore({
     mongooseConnection: connection,
@@ -91,6 +93,28 @@ app.use(express.static('public'))
 require('./routes/web')(app)
 
 
-app.listen(PORT,()=>{
+const server = app.listen(PORT,()=>{
     console.log(`server is running on port no ${PORT}`)
+})
+
+
+// socket
+
+const io = require('socket.io')(server)
+io.on('connection',(socket)=>{
+    // join 
+console.log(socket.id)
+socket.on('join',(roomname)=>{
+    console.log(roomname)
+socket.join(roomname)
+})
+})
+
+eventEmitter.on('orderupdated',(data)=>{
+io.to(`order_${data.id}`).emit('orderupdated',data)
+})
+
+eventEmitter.on('orderPlaced',(data)=>{
+   
+    io.to('adminRoom').emit('orderPlaced',data)
 })

@@ -52,7 +52,7 @@ if(alertMsg){
     }, 2000);
 }
 
-initAdmin()
+
 
 // rander status
 let statuses = document.querySelectorAll('.status-line')
@@ -62,6 +62,10 @@ order = JSON.parse(order)
 let time = document.createElement('small')
 
 function updateStatus(order){
+    statuses.forEach((status)=>{
+        status.classList.remove('step-completed')
+        status.classList.remove('current')
+    })
     let stepcompleted = true
     statuses.forEach((status)=>{
         let dataprop = status.dataset.status
@@ -83,5 +87,34 @@ function updateStatus(order){
 
 updateStatus(order)
 
+//socket
+let socket = io()
+
+// join
+if(order){
+    socket.emit('join',`order_${order._id}`)
+}
+
+let adminArea = window.location.pathname
+if(adminArea.includes('admin')){
+    initAdmin(socket)
+    socket.emit('join','adminRoom')
+}
+
+socket.on('orderupdated',(data)=>{
+    const updatedOrder = {...order}
+    updatedOrder.updatedAt = moment().format()
+    updatedOrder.status = data.status
+    updateStatus(updatedOrder)
+    new Noty({
+        type:'success',
+        timeout:1000,
+        text:'order updated',
+        progressBar:false
+   
+    }).show()
+
+    
+})
 
 

@@ -8,6 +8,9 @@ update(req,res){
         if(err){
           return  res.redirect('/admin/orders')
         }
+        //event emitter
+      const eventEmitter = req.app.get('eventEmitter')
+      eventEmitter.emit('orderupdated',{id:req.body.orderId,status:req.body.status})
        return res.redirect('/admin/orders')
     })
 
