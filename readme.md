@@ -9,15 +9,3 @@
 
 ![deep](home.png)
 
-<div class="footer">Developed in India 🇮🇳</div>
-<style>
-.footer{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background-color:#f7fafc;
-    color:black;
-    height:50px;
-
-}
-</style>
