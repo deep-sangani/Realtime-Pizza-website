@@ -12,6 +12,9 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@gerhobbelt/babel-plugin-proposal-class-properties": "^7.2.1-26",
+    "@stripe/stripe-js": "^1.11.0",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "connect-mongo": "^3.2.0",
@@ -31,6 +34,7 @@
     "sass": "^1.26.10",
     "sass-loader": "8.*",
     "socket.io": "^2.3.0",
+    "stripe": "^8.120.0",
     "vue-template-compiler": "^2.6.11"
   },
   "devDependencies": {

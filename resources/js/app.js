@@ -2,6 +2,7 @@ import axios from 'axios'
 import Noty from 'noty'
 import {initAdmin} from './admin'
 import moment from 'moment'
+import {initStripe} from './stripe'
 
 
 
@@ -86,6 +87,8 @@ function updateStatus(order){
 }
 
 updateStatus(order)
+initStripe()
+
 
 //socket
 let socket = io()

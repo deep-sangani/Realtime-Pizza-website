@@ -76,6 +76,10 @@ export function initAdmin(socket) {
                 <td class="border px-4 py-2">
                     ${ moment(order.createdAt).format('hh:mm A') }
                 </td>
+                <td class="border px-4 py-2">
+                ${order.paymentStatus ? 'paid' : 'Not paid'}
+            </td>
+
             </tr>
         `
         }).join('')

@@ -1,13 +1,15 @@
 const Order = require('../../../models/order')
 const moment = require('moment')
+const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 
 function ordercontroller(){
 return {
     store:(req,res)=>{
-         const {phoneno,address} = req.body
+         const {phoneno,address,stripeToken,paymentType} = req.body
+
          if(!phoneno || !address){
-             req.flash('error','All Fields are required')
-             res.redirect('/cart')
+            return res.status(422).json({message:'All Fields are required'})
+
          }
 
 
@@ -20,18 +22,48 @@ return {
 
          order.save().then(result=>{
            Order.populate(result,{path:'customerId'},(err,placedorder)=>{
-            req.flash('success','Order placed successfully')
+            //req.flash('success','Order placed successfully')
+        
+
+            //Stripe payment
+            if(paymentType ==='card'){
+                stripe.charges.create({
+                    amount:req.session.cart.totalPrice * 100,
+                    source:stripeToken,
+                    currency:'inr',
+                    description:`Pizza Order: ${placedorder._id}`
+                }).then(()=>{
+                    placedorder.paymentStatus = true;
+                    placedorder.paymentType = paymentType
+                    placedorder.save().then((ord)=>{
+                   
+                        const eventEmitter = req.app.get('eventEmitter')
+            eventEmitter.emit('orderPlaced',ord)
             delete req.session.cart
-            // emmit
-            const eventEmitter = req.app.get('eventEmitter')
-            eventEmitter.emit('orderPlaced',placedorder)
-            res.redirect('/customer/orders')
+            return res.json({message:'Payment successful, Order placed successfully'})
+
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }).catch((err)=>{
+                    delete req.session.cart
+                    return res.json({message:'OrderPlaced but Payment failed, You can pay delivery time'})
+                })
+            }
+            else{
+                delete req.session.cart
+            return res.json({message:'Order placed successfully'})
+            }
+
+
            })
           
 
          }).catch(err=>{
-             req.flash('error','Something Went Wrong ')
-             return res.redirect('/cart')
+            return res.status(500).json({message:'Something Went Wrong '})
+
+            //  req.flash('error','Something Went Wrong ')
+            //  return res.redirect('/cart')
          })
     },
 
